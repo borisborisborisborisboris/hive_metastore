@@ -75,8 +75,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ github.event_name == 'release' && github.event.action == 'published' && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
           sbom: ${{ github.event_name == 'release' && github.event.action == 'published' }}
-          # build-args: |
-          #   MY_ARG=value
+          build-args: |
+            HIVE_IMAGE_TAG=4.0.0
           # dockerfile: Dockerfile.custom
 
   trivy-scan:
