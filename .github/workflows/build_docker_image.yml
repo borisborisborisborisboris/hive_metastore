@@ -65,7 +65,6 @@ jobs:
           sbom: ${{ github.event_name == 'release' && github.event.action == 'published' }}
           build-args: |
             HIVE_IMAGE_TAG=4.0.0
-
   trivy-scan:
     needs: build
     runs-on: ubuntu-latest
@@ -73,6 +72,8 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Pull image
+        run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ needs.build.outputs.image-digest }}
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.28.0
         with:
